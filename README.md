@@ -21,7 +21,7 @@ In 2025, I participated in MIT FutureMakers, a six-week program in collaboration
 
 ## Results
 
-With a 400-sample test set, the validity classifer achieved 99% accuracy while the topic classifier reached 91.75%—displaying the contrast between grasping writing style and grasping subject matter.
+With a 400-sample test set, the validity classifer achieved 98.50% accuracy while the topic classifier reached 92%—displaying the contrast between grasping writing style and grasping subject matter.
 
 ### Confusion Matrix (Fake/Real)
 
@@ -31,11 +31,11 @@ With a 400-sample test set, the validity classifer achieved 99% accuracy while t
 
 | Class | Precision | Recall | F1-Score | Support |
 |---|---|---|---|---|
-| 0.0 (Fake) | 0.9884 | 0.9884 | 0.9884 | 173 |
+| 0.0 (Fake) | 0.9883 | 0.9769 | 0.9826 | 173 |
 | 0.1 (Real) | 0.9912 | 0.9912 | 0.9912 | 227 |
-| Accuracy |  |  | 0.9900 | 400 |
-| Macro Avg | 0.9898 | 0.9898 | 0.9898 | 400 | 
-| Weighted Avg | 0.9900 | 0.9900 | 0.9900 | 400 |
+| Accuracy |  |  | 0.9850 | 400 |
+| Macro Avg | 0.9854 | 0.9840 | 0.9847 | 400 | 
+| Weighted Avg | 0.9850 | 0.9850 | 0.9850 | 400 |
 
 ### Confusion Matrix (Politics/World)
 
@@ -45,11 +45,11 @@ With a 400-sample test set, the validity classifer achieved 99% accuracy while t
 
 | Class | Precision | Recall | F1-Score | Support |
 |---|---|---|---|---|
-| 0.0 (Politics) | 0.8942 | 0.9442 | 0.9185 | 197 |
-| 0.1 (World) | 0.9427 | 0.8916 | 0.9165 | 203 |
-| Accuracy |  |  | 0.9175 | 400 |
-| Macro Avg | 0.9185 | 0.9179 | 0.9175 | 400 | 
-| Weighted Avg | 0.9188 | 0.9175 | 0.9175 | 400 |
+| 0.0 (Politics) | 0.9382 | 0.8883 | 0.9126 | 188 |
+| 0.1 (World) | 0.9054 | 0.9481 | 0.9263 | 212 |
+| Accuracy |  |  | 0.92 | 400 |
+| Macro Avg | 0.9218 | 0.9182 | 0.9194 | 400 | 
+| Weighted Avg | 0.9208 | 0.9200 | 0.9198 | 400 |
 
 ---
 
@@ -60,7 +60,8 @@ With a 400-sample test set, the validity classifer achieved 99% accuracy while t
 - When searching for the best hyperparameters, **Optuna** decided that the ideal learning rate was 3.46e-5 and the ideal batch size was 4, determining how many samples the model views before updating.
    - The average F1 score increased from 0.8963 (across both tasks) to 0.9900 and 0.9175 after implementation.
 - Explainable AI methods (such as **LIME**), which help to explain the results produced by algorithms found that the term "reuters" was the greatest indicator of whether or not an article was real or fake at +0.5075.
-   - This is because the original dataset sourced most, if not all of its real articles from Reuters, and the tag denoting this within each article wasn't removed. It's very likely that the miscategorized fake articles included this term in passing.
+   - I went back through and removed any reuters tokens in my second iteration, and found that the accuracy shift from removing the leakage was similar to the impact of normal run-to-run parameter adjustments (in other words, it's closer to noise than indicating a meaningful change.)
+   - That being said, the minimal change showed me that the model wasn't relying too heavily on shortcuts; rather, the reasoning behind each choice is more likely to be contextual. It also revealed other minor artifacts (a byline and HTML fragment) that could be removed in a future iteration.
  
 <br>
 <img src="images/news_tokens.png" width="500"/>
